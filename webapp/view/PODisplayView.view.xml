@@ -1,47 +1,181 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <mvc:View xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
   xmlns:layout="sap.ui.layout"
   xmlns:form="sap.ui.layout.form"
   xmlns:core="sap.ui.core"
-  xmlns:richtexteditor="sap.ui.richtexteditor"
-  xmlns:viz="sap.viz.ui5"
-  controllerName="preview.app.controller.PODisplayView"
-  displayBlock="true">
-  <Page title="PODisplayView" enableScrolling="true">
+  controllerName="converted.podisplayview.controller.PODisplayView"
+  displayBlock="true"
+          xmlns:commons="sap.ui.commons">
+  <Page title="{i18n>poDisplayTitle}" showHeader="true">
+    <headerContent>
+      <Button id="documentOverviewButton" text="Document Overview" press="onDocumentOverviewPress"/>
+      <Button id="printPreviewButton" text="Print Preview" press="onPrintPreviewPress"/>
+      <Button id="messagesButton" text="Messages" press="onMessagesPress"/>
+      <Button id="personalSettingButton" text="Personal Setting" press="onPersonalSettingPress"/>
+      <Button id="cancelButton" text="Cancel" press="onCancelPress"/>
+      <Button id="exitButton" text="Exit" press="onExitPress"/>
+    </headerContent>
     <content>
       <Title id="title_0epm3obx" text="Standard PO {/poData/poNumber} Created by {/poData/createdBy}"/>
-      <form:SimpleForm id="headerForm">
+      <form:SimpleForm id="headerForm" editable="false" layout="ResponsiveGridLayout" title="PO Header Data">
         <form:content>
-          <!-- Empty SimpleForm content -->
+          <Label text="Document Type"/>
+          <Select id="documentTypeDropdown" selectedKey="{/poData/documentType}">
+            <core:Item key="NB" text="Standard PO"/>
+            <!-- Add more document types as needed -->
+          </Select>
+          <Label text="PO Number"/>
+          <Text id="poNumberTextView" text="{/poData/poNumber}"/>
+          <Label text="Vendor"/>
+          <Input id="vendorInputField" value="{/poData/vendor}" showValueHelp="true" valueHelpRequest="handleValueHelp"/>
+          <Label text="Document Date"/>
+          <DatePicker id="documentDateInputField" value="{/poData/documentDate}" displayFormat="yyyy-MM-dd"/>
         </form:content>
       </form:SimpleForm>
-      <IconTabBar id="mainTabStrip" width="100%" expandable="false">
+      <IconTabBar id="mainTabStrip" width="100%" expandable="false" selectedKey="tab0">
         <items>
-          <IconTabFilter id="tabFilter_t2w4sodrg" text="Delivery/Invoice" key="tab0" icon="sap-icon://document">
+          <IconTabFilter id="tabFilter_t2w4sodrg" text="Delivery/Invoice" key="tab0" icon="sap-icon://shipping">
             <content>
-              <Text id="element_fug5l6la"/>
+              <form:SimpleForm id="deliveryInvoiceForm" editable="false" layout="ResponsiveGridLayout" title="Delivery/Invoice Details">
+                <form:content>
+                  <Label text="Payment Terms"/>
+                  <Input id="paymentTermsInputField" value="{/poData/paymentTerms}" showValueHelp="true" valueHelpRequest="handleValueHelp"/>
+                  <Label text="Incoterms"/>
+                  <Select id="incotermsDropdown" selectedKey="{/poData/incoterms}">
+                    <core:Item key="FOB" text="FOB"/>
+                    <core:Item key="CIF" text="CIF"/>
+                    <!-- Add more Incoterms as needed -->
+                  </Select>
+                  <Label text="GR Message"/>
+                  <CheckBox id="grMessageCheckbox" selected="{/poData/grMessage}"/>
+                  <Label text="Currency"/>
+                  <Text id="currencyTextView" text="{/poData/currency}"/>
+                  <Label text="Exchange Rate"/>
+                  <Input id="exchangeRateInputField" value="{/poData/exchangeRate}"/>
+                  <Label text="Exch. Rate Fixed"/>
+                  <CheckBox id="exchangeRateFixedCheckbox" selected="{/poData/exchangeRateFixed}"/>
+                </form:content>
+              </form:SimpleForm>
             </content>
           </IconTabFilter>
+          <!-- Add other tabs here (Conditions, Texts, etc.) -->
         </items>
       </IconTabBar>
-      <Table id="itemOverviewTable">
+      <Table id="itemOverviewTable" items="{orders>/orders}" headerText="Item Overview">
+        <columns>
+          <Column id="itemCheckboxColumn">
+            <header>
+              <CheckBox text="Select"/>
+            </header>
+          </Column>
+          <Column id="itemColumn">
+            <header>
+              <Text text="Item"/>
+            </header>
+          </Column>
+          <Column id="accountAssignmentColumn">
+            <header>
+              <Text text="Account Assignment"/>
+            </header>
+          </Column>
+          <Column id="materialColumn">
+            <header>
+              <Text text="Material"/>
+            </header>
+          </Column>
+          <Column id="shortTextColumn">
+            <header>
+              <Text text="Short Text"/>
+            </header>
+          </Column>
+          <Column id="quantityColumn">
+            <header>
+              <Text text="Quantity"/>
+            </header>
+          </Column>
+          <Column id="orderUnitColumn">
+            <header>
+              <Text text="Order Unit"/>
+            </header>
+          </Column>
+          <Column id="deliveryDateColumn">
+            <header>
+              <Text text="Delivery Date"/>
+            </header>
+          </Column>
+          <Column id="netPriceColumn">
+            <header>
+              <Text text="Net Price"/>
+            </header>
+          </Column>
+          <Column id="currencyColumn">
+            <header>
+              <Text text="Currency"/>
+            </header>
+          </Column>
+          <Column id="perColumn">
+            <header>
+              <Text text="Per"/>
+            </header>
+          </Column>
+          <Column id="finalInvoiceColumn">
+            <header>
+              <Text text="Final Invoice"/>
+            </header>
+          </Column>
+          <Column id="orderAckColumn">
+            <header>
+              <Text text="Order Ack"/>
+            </header>
+          </Column>
+          <Column id="materialGroupColumn">
+            <header>
+              <Text text="Material Group"/>
+            </header>
+          </Column>
+          <Column id="plantColumn">
+            <header>
+              <Text text="Plant"/>
+            </header>
+          </Column>
+          <Column id="storageLocationColumn">
+            <header>
+              <Text text="Storage Location"/>
+            </header>
+          </Column>
+        </columns>
         <items>
           <ColumnListItem>
-                <cells>
-                        <Text text="Sample Data"/>
-                </cells>
+            <cells>
+              <CheckBox selected="false"/>
+              <Text text="{orders>orderId}"/>
+              <Text text="{orders>customerId}"/>
+              <Text text="{orders>items/0/productId}"/>
+              <Text text="{orders>items/0/name}"/>
+              <Text text="{orders>items/0/quantity}"/>
+              <Text text="EA"/>
+              <Text text="{orders>date}"/>
+              <Text text="{orders>totalAmount}"/>
+              <Text text="EUR"/>
+              <Text text="1"/>
+              <CheckBox selected="false"/>
+              <CheckBox selected="false"/>
+              <Text text="Pharmaceutical"/>
+              <Text text="Hamburg"/>
+              <Text text="Materiallager"/>
+            </cells>
           </ColumnListItem>
         </items>
       </Table>
-      <Button id="addPlanningButton" text="Add Planning"/>
-      <Button id="documentOverviewButton" text="Document Overview"/>
-      <Button id="printPreviewButton" text="Print Preview"/>
-      <Button id="messagesButton" text="Messages"/>
-      <Button id="personalSettingButton" text="Personal Setting"/>
-      <Button id="cancelButton" text="Cancel"/>
-      <Button id="exitButton" text="Exit"/>
-      <MessagePopover id="messageArea"/>
+      <Button id="addPlanningButton" text="Add Planning" press="onAddPlanningPress"/>
+      <MessagePopover id="messageArea" items="{messages>/messages}">
+        <MessageItem type="{messages>type}" title="{messages>title}" description="{messages>description}"/>
+      </MessagePopover>
     </content>
+    <footer>
+      <Toolbar>
+        <Title text="Item Detail"/>
+      </Toolbar>
+    </footer>
   </Page>
 </mvc:View>
