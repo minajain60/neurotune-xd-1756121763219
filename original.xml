@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebDynpro xmlns="http://www.sap.com/wd/webdynpro">
+  <View name="PODisplayView">
+    <Title>Standard PO {/poData/poNumber} Created by {/poData/createdBy}</Title>
+    <FormContainer id="headerForm">
+      <FormElement id="documentTypeElement">
+        <Label text="Document Type" />
+        <DropDownByKey id="documentTypeDropdown" key="{/poData/documentType}" />
+      </FormElement>
+      <FormElement id="poNumberElement">
+        <Label text="PO Number" />
+        <TextView id="poNumberTextView" text="{/poData/poNumber}" />
+      </FormElement>
+      <FormElement id="vendorElement">
+        <Label text="Vendor" />
+        <InputField id="vendorInputField" value="{/poData/vendor}" />
+      </FormElement>
+      <FormElement id="documentDateElement">
+        <Label text="Document Date" />
+        <InputField id="documentDateInputField" value="{/poData/documentDate}" />
+      </FormElement>
+    </FormContainer>
+    <TabStrip id="mainTabStrip">
+      <Tab text="Delivery/Invoice" id="deliveryInvoiceTab">
+        <FormContainer id="deliveryInvoiceForm">
+          <FormElement id="paymentTermsElement">
+            <Label text="Payment Terms" />
+            <InputField id="paymentTermsInputField" value="{/poData/paymentTerms}" />
+          </FormElement>
+          <!-- Add more FormElements for discount lines, Incoterms etc. -->
+          <FormElement id="incotermsElement">
+            <Label text="Incoterms"/>
+            <DropDownByKey id="incotermsDropdown" key="{/poData/incoterms}"/>
+          </FormElement>
+          <FormElement id="grMessageElement">
+            <Label text="GR Message"/>
+            <Checkbox id="grMessageCheckbox" checked="{/poData/grMessage}"/>
+          </FormElement>
+          <FormElement id="currencyElement">
+            <Label text="Currency"/>
+            <TextView id="currencyTextView" text="{/poData/currency}"/>
+          </FormElement>
+          <FormElement id="exchangeRateElement">
+            <Label text="Exchange Rate"/>
+            <InputField id="exchangeRateInputField" value="{/poData/exchangeRate}"/>
+          </FormElement>
+          <FormElement id="exchangeRateFixedElement">
+            <Label text="Exch. Rate Fixed"/>
+            <Checkbox id="exchangeRateFixedCheckbox" checked="{/poData/exchangeRateFixed}"/>
+          </FormElement>
+
+        </FormContainer>
+      </Tab>
+      <!-- Add other tabs (Conditions, Texts, etc.) -->
+    </TabStrip>
+    <Table id="itemOverviewTable">
+      <Columns>
+        <Column id="itemCheckboxColumn">
+          <Checkbox/>
+        </Column>
+        <!-- Add other columns (Item, Material, etc.) -->
+      </Columns>
+      <!-- Data Binding for table rows -->
+    </Table>
+    <Button text="Add Planning" id="addPlanningButton"/>
+    <MessageArea id="messageArea"/>
+    <Button text="Document Overview" id="documentOverviewButton"/>
+    <Button text="Print Preview" id="printPreviewButton"/>
+    <Button text="Messages" id="messagesButton"/>
+    <Button text="Personal Setting" id="personalSettingButton"/>
+    <Button text="Cancel" id="cancelButton"/>
+    <Button text="Exit" id="exitButton"/>
+
+  </View>
+  <Controller name="PODisplayViewController">
+    <Method name="handleDocumentOverview">
+      <!--Implementation for Document Overview Button-->
+    </Method>
+    <Method name="handlePrintPreview">
+      <!--Implementation for Print Preview Button-->
+    </Method>
+    <Method name="handleMessages">
+      <!--Implementation for Messages Button-->
+    </Method>
+    <Method name="handlePersonalSetting">
+      <!--Implementation for Personal Setting Button-->
+    </Method>
+    <Method name="handleCancel">
+      <!--Implementation for Cancel Button-->
+    </Method>
+    <Method name="handleExit">
+      <!--Implementation for Exit Button-->
+    </Method>
+    <Method name="handleAddPlanning">
+      <!--Implementation for Add Planning Button-->
+    </Method>
+    <!-- Add other methods for table interactions, tab changes, etc. -->
+  </Controller>
+</WebDynpro>

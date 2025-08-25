@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:layout="sap.ui.layout"
+  xmlns:form="sap.ui.layout.form"
+  xmlns:core="sap.ui.core"
+  xmlns:richtexteditor="sap.ui.richtexteditor"
+  xmlns:viz="sap.viz.ui5"
+  controllerName="preview.app.controller.PODisplayView"
+  displayBlock="true">
+  <Page title="PODisplayView" enableScrolling="true">
+    <content>
+      <Title id="title_0epm3obx" text="Standard PO {/poData/poNumber} Created by {/poData/createdBy}"/>
+      <form:SimpleForm id="headerForm">
+        <form:content>
+          <!-- Empty SimpleForm content -->
+        </form:content>
+      </form:SimpleForm>
+      <IconTabBar id="mainTabStrip" width="100%" expandable="false">
+        <items>
+          <IconTabFilter id="tabFilter_t2w4sodrg" text="Delivery/Invoice" key="tab0" icon="sap-icon://document">
+            <content>
+              <Text id="element_fug5l6la"/>
+            </content>
+          </IconTabFilter>
+        </items>
+      </IconTabBar>
+      <Table id="itemOverviewTable">
+        <items>
+          <ColumnListItem>
+                <cells>
+                        <Text text="Sample Data"/>
+                </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+      <Button id="addPlanningButton" text="Add Planning"/>
+      <Button id="documentOverviewButton" text="Document Overview"/>
+      <Button id="printPreviewButton" text="Print Preview"/>
+      <Button id="messagesButton" text="Messages"/>
+      <Button id="personalSettingButton" text="Personal Setting"/>
+      <Button id="cancelButton" text="Cancel"/>
+      <Button id="exitButton" text="Exit"/>
+      <MessagePopover id="messageArea"/>
+    </content>
+  </Page>
+</mvc:View>
